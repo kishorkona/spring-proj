@@ -7,10 +7,8 @@
 **/build/**
 **/dist/**
 
-#ignore IDE specific files
-.idea/
-
 # Ignore generated files
+**/.DS_Store
 *.class
 *.jar
 *.war
@@ -21,3 +19,7 @@
 *.swp
 *.lock
 **/*.class
+
+#ignore IDE specific files
+.idea/
+**/.idea
