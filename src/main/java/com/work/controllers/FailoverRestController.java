@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin(value = "http://localhost:4200/")
 @RequestMapping(value = "/api/failover")
 public class FailoverRestController {
 
@@ -31,9 +32,9 @@ public class FailoverRestController {
         System.out.println("------------>> geAllEmployees:"+Thread.currentThread().getName());
         empService.threadSleep(1000);
         ApiResponse apiResponse = new ApiResponse();
-        List<Employee> data = employeeDataBuilder.getEmployeesAsList();
+        List<Employee> data = empService.getEmployees();
         apiResponse.setData(new HashMap<>());
-        apiResponse.getData().put("resp", data);
+        apiResponse.setListData(data);
         apiResponse.setCode(MyConstants.SUCCESS_CODE);
         apiResponse.setStatus(MyConstants.SUCCESS);
         return new ResponseEntity(apiResponse, HttpStatus.OK);
@@ -46,7 +47,7 @@ public class FailoverRestController {
             System.out.println("------------>> getEmployeeById:"+Thread.currentThread().getName());
             ApiResponse apiResponse = new ApiResponse();
             apiResponse.setData(new HashMap<>());
-            apiResponse.getData().put("resp", emp);
+            apiResponse.setListData(emp);
             apiResponse.setCode(MyConstants.SUCCESS_CODE);
             apiResponse.setStatus(MyConstants.SUCCESS);
             return new ResponseEntity(apiResponse, HttpStatus.OK);
@@ -59,29 +60,29 @@ public class FailoverRestController {
     }
 
     private Employee getEmployeeByIdInternal(Long id) {
-    	List<Employee> data = employeeDataBuilder.getEmployeesAsList();
+        List<Employee> data = employeeDataBuilder.getEmployeesAsList();
         List<Employee> filtered = data.stream()
-        		.filter(e -> {
-        			if(e.getEmployeeId() == id.intValue()) {
-        				return true;
-        			}
-        			return false;
-        		})
-        		.collect(Collectors.toList());
+                .filter(e -> {
+                    if(e.getEmployeeId() == id.intValue()) {
+                        return true;
+                    }
+                    return false;
+                })
+                .collect(Collectors.toList());
         if(filtered != null && filtered.size() > 0) {
-        	return filtered.get(0);
+            return filtered.get(0);
         }
         return null;
     }
 
     @GetMapping("/byjob/{job}")
     public ResponseEntity<List<Employee>> getEmployeeByJob(@PathVariable("job") String job) {
-    	List<Employee> data = employeeDataBuilder.getEmployeesAsList();
+        List<Employee> data = employeeDataBuilder.getEmployeesAsList();
         return new ResponseEntity(data.stream()
-        		.filter(e -> {
-        			return (e.getJobId() != null && e.getJobId().equalsIgnoreCase(job));
-        		})
-        		.collect(Collectors.toList()), HttpStatus.OK);
+                .filter(e -> {
+                    return (e.getJobId() != null && e.getJobId().equalsIgnoreCase(job));
+                })
+                .collect(Collectors.toList()), HttpStatus.OK);
     }
 
 
