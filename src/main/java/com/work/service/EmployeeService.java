@@ -53,7 +53,7 @@ public class EmployeeService {
     }
 
     @CircuitBreaker(name = "employeeRestCall", fallbackMethod = "fallbackEmployee")
-    @TimeLimiter(name = "callExternalServiceGetEmployees")
+    //@TimeLimiter(name = "callExternalServiceGetEmployees")
     public ResponseEntity<ApiResponse> callExternalServiceGetEmployees() {
         String employeeUrl = "http://localhost:3030/spring-test-proj/api/failover/getAllEmployees";
         return restTemplate.exchange(employeeUrl, HttpMethod.GET, null, ApiResponse.class);
