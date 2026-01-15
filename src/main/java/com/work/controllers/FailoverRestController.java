@@ -87,8 +87,8 @@ public class FailoverRestController {
 
 
     @PostMapping({ "addEmployee"})
-    public ResponseEntity<String> addEmployees(@RequestBody Emp emp) {
-        if(empService.addEmployees(emp)) {
+    public ResponseEntity<String> addEmployees(@RequestBody Employee employee) {
+        if(empService.addEmployees(employee)) {
             return new ResponseEntity(HttpStatus.OK);
         }
         return new ResponseEntity(HttpStatus.BAD_REQUEST);

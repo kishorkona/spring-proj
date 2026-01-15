@@ -1,5 +1,6 @@
 package com.work.service;
 
+import com.google.gson.Gson;
 import com.work.constants.MyConstants;
 import com.work.data.ApiResponse;
 import com.work.data.Emp;
@@ -27,12 +28,14 @@ public class EmployeeService {
     @Autowired
     private RestTemplate restTemplate;
 
+    Gson gson = new Gson();
+
     public List<Employee> getEmployees() {
         return employeeDataBuilder.getEmployeesAsList();
     }
 
-    public boolean addEmployees(Emp emp) {
-        System.out.println(emp);
+    public boolean addEmployees(Employee employee) {
+        System.out.println(gson.toJson(employee));
         return true;
     }
 
